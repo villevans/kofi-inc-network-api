@@ -1,0 +1,16 @@
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const app = express();
+app.use(cors({origin: process.env.FRONTEND_URL || '*'}));
+app.use(express.json());
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/wallet', require('./routes/wallet'));
+app.use('/api/packages', require('./routes/packages'));
+app.use('/api/orders', require('./routes/orders'));
+app.use('/api/payments', require('./routes/payments'));
+app.use('/api/admin', require('./routes/admin'));
+app.get('/', (req,res)=>res.json({name:'KOFI INC NETWORK API', status:'running', version:'1.0.0'}));
+app.get('/health', (req,res)=>res.json({ok:true}));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, ()=>console.log(`KOFI INC NETWORK backend running on http://localhost:${PORT}`));
